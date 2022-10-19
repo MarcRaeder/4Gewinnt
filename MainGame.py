@@ -1,7 +1,6 @@
-import math
-
 from Board import Board
 from Player import Player
+from StatusValidator import StatusValidator
 
 
 class MainGame:
@@ -17,7 +16,7 @@ class MainGame:
         self.playerTwo.name = self.GetUserName("Spieler 2")
         self.playerTwo.symbol = "O"
 
-    def Turn(self, player: Player) -> None:
+    def Turn(self, player: Player) -> None or Player:
         self.board.ShowBoard()
 
         while True:
@@ -27,20 +26,40 @@ class MainGame:
 
             if isvalidTurn:
                 self.board.AddCoinToBoard(row, player.symbol)
-                return
+                playerWins = StatusValidator.isWin(self.board, player, row)
+
+                if playerWins:
+                    return player
+                break
+
             else:
                 print(
                     f"Du kannst deinen Stein nicht in Spalte '{row}' setzen. Versuch es nochmal!")
 
-    def Round(self) -> None:
+    def Round(self) -> None or Player:
+        winner: Player
         self.roundNumber += 1
+        if self.roundNumber > 21:
+            return Player()
         print(f"Round: {self.roundNumber}")
-        self.Turn(self.playerOne)
-        self.Turn(self.playerTwo)
+        winner = self.Turn(self.playerOne)
+        if winner is None:
+            winner = self.Turn(self.playerTwo)
+
+        if winner is not None:
+            return winner
 
     def Play(self) -> None:
+        winner: Player
         while True:
-            self.Round()
+            winner = self.Round()
+
+            if winner is not None:
+                break
+        if winner.name == "":
+            print("Unentschieden")
+        else:
+            print(f"{winner.name} hat gewonnen!")
 
     def GetUserName(self, playerName: str) -> str:
         while True:
@@ -62,7 +81,7 @@ class MainGame:
             try:
                 rowInput = int(rowInputString)
                 firstLine: int = 1
-                lastLine: int = 2
+                lastLine: int = 7
 
                 inputIsValid = firstLine <= rowInput <= lastLine
                 if inputIsValid:
