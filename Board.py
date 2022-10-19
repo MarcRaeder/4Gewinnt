@@ -1,14 +1,11 @@
-from typing import List
-
-
 class Board:
     def __init__(self):
         self.placeHolder: str = "_"
-        self.board: List[List[str]] = self.CreateBoard()
+        self.board: list[list[str]] = self.CreateBoard()
 
-    def CreateBoard(self) -> List[List[str]]:
+    def CreateBoard(self) -> list[list[str]]:
 
-        emptyBoard: List[List[str]] = [
+        emptyBoard: list[list[str]] = [
             [self.placeHolder, self.placeHolder, self.placeHolder, self.placeHolder,
                 self.placeHolder, self.placeHolder, self.placeHolder],
             [self.placeHolder, self.placeHolder, self.placeHolder, self.placeHolder,
@@ -29,20 +26,20 @@ class Board:
     def ShowBoard(self) -> None:
         for line in self.board:
             for element in line:
-                print(f"|{element}", end='')
+                print(f"|{element}", end="")
             print("|")
 
-    def IsValidTurn(self, row: int) -> bool:
-        row -= 1
-        for index in range(len(self.board)):
-            if self.board[index][row] != self.placeHolder:
-                if self.board[index - 1][row] == self.placeHolder:
+    def IsValidTurn(self, element: int) -> bool:
+        element -= 1
+        for line in range(len(self.board)):
+            if self.board[line][element] != self.placeHolder:
+                if self.board[line - 1][element] == self.placeHolder:
                     return True
         return False
 
-    def AddCoinToBoard(self, row: int, playerSymbol: str):
-        row -= 1
-        for index in range(len(self.board)):
-            if self.board[index][row] != self.placeHolder:
-                if self.board[index - 1][row] == self.placeHolder:
-                    self.board[index - 1][row] = playerSymbol
+    def AddCoinToBoard(self, element: int, playerSymbol: str):
+        element -= 1
+        for line in range(len(self.board)):
+            if self.board[line][element] != self.placeHolder:
+                if self.board[line - 1][element] == self.placeHolder:
+                    self.board[line - 1][element] = playerSymbol

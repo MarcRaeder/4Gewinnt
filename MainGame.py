@@ -12,9 +12,9 @@ class MainGame:
         self.roundNumber = 0
 
     def PrepareGame(self) -> None:
-        self.playerOne.name = self.GetUserName("Player 1")
+        self.playerOne.name = self.GetUserName("Spieler 1")
         self.playerOne.symbol = "X"
-        self.playerTwo.name = self.GetUserName("Player 2")
+        self.playerTwo.name = self.GetUserName("Spieler 2")
         self.playerTwo.symbol = "O"
 
     def Turn(self, player: Player) -> None:
@@ -30,44 +30,45 @@ class MainGame:
                 return
             else:
                 print(
-                    f"You can't put a coin into row '{row}'. Please try again")
+                    f"Du kannst deinen Stein nicht in Spalte '{row}' setzen. Versuch es nochmal!")
 
     def Round(self) -> None:
         self.roundNumber += 1
-        print(f"Round: {math.ceil(self.roundNumber / 2)}")
-        if self.roundNumber % 2 != 0:
-            self.Turn(self.playerOne)
-        else:
-            self.Turn(self.playerTwo)
+        print(f"Round: {self.roundNumber}")
+        self.Turn(self.playerOne)
+        self.Turn(self.playerTwo)
 
     def Play(self) -> None:
         while True:
             self.Round()
 
-    def GetUserName(self, greeting: str) -> str:
+    def GetUserName(self, playerName: str) -> str:
         while True:
-            userName: str = input(f"{greeting}: Please enter your name: ")
+            userName: str = input(
+                f"{playerName}: Bitte gebe deinen Namen ein: ")
 
             inputIsValid: bool = userName.isalpha() and len(userName) > 0
             if inputIsValid:
                 return userName
             else:
                 print(
-                    f"Your input '{userName}' is not valid. Please try again")
+                    f"Deine Eingabe'{userName}' ist ungültig. Versuch es nochmal!")
 
     def GetRowInput(self, playerName: str) -> int:
         while True:
             rowInputString: str = input(
-                f"{playerName}: Select a row to put your coin: ")
+                f"{playerName}: Wähle eine Spalte um deinen Stein zu setzen: ")
 
             try:
                 rowInput = int(rowInputString)
+                firstLine: int = 1
+                lastLine: int = 2
 
-                inputIsValid = 1 <= rowInput <= 7
+                inputIsValid = firstLine <= rowInput <= lastLine
                 if inputIsValid:
                     return rowInput
                 else:
                     print(
-                        f"Your input '{rowInput}' is not valid. Please try again")
+                        f"Deine Eingabe '{rowInput}' ist ungültig. Versuch es nochmal")
             except ValueError:
-                print('Please enter an integer')
+                print('Bitte gebe eine Zahl ein')
