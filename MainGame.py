@@ -1,6 +1,7 @@
-from importlib.abc import Traversable
-from Player import Player
+import math
+
 from Board import Board
+from Player import Player
 
 
 class MainGame:
@@ -8,12 +9,40 @@ class MainGame:
         self.playerOne: Player = Player()
         self.playerTwo: Player = Player()
         self.board: Board = Board()
+        self.roundNumber = 0
 
     def PrepareGame(self) -> None:
         self.playerOne.name = self.GetUserName("Player 1")
         self.playerOne.symbol = "X"
         self.playerTwo.name = self.GetUserName("Player 2")
         self.playerTwo.symbol = "O"
+
+    def Turn(self, player: Player) -> None:
+        self.board.ShowBoard()
+
+        while True:
+            row: int = self.GetRowInput(player.name)
+
+            isvalidTurn: bool = self.board.IsValidTurn(row)
+
+            if isvalidTurn:
+                self.board.AddCoinToBoard(row, player.symbol)
+                return
+            else:
+                print(
+                    f"You can't put a coin into row '{row}'. Please try again")
+
+    def Round(self) -> None:
+        self.roundNumber += 1
+        print(f"Round: {math.ceil(self.roundNumber / 2)}")
+        if self.roundNumber % 2 != 0:
+            self.Turn(self.playerOne)
+        else:
+            self.Turn(self.playerTwo)
+
+    def Play(self) -> None:
+        while True:
+            self.Round()
 
     def GetUserName(self, greeting: str) -> str:
         while True:
@@ -26,31 +55,19 @@ class MainGame:
                 print(
                     f"Your input '{userName}' is not valid. Please try again")
 
-    def Turn(self, player) -> None:
-        row: int = self.GetRowInput(player)
-
-    def GetRowInput(self, player) -> int:
+    def GetRowInput(self, playerName: str) -> int:
         while True:
+            rowInputString: str = input(
+                f"{playerName}: Select a row to put your coin: ")
+
             try:
-                rowInputString: str = input(
-                    f"{player}: Select a row to put your coin:")
                 rowInput = int(rowInputString)
 
-                return rowInput, False
+                inputIsValid = 1 <= rowInput <= 7
+                if inputIsValid:
+                    return rowInput
+                else:
+                    print(
+                        f"Your input '{rowInput}' is not valid. Please try again")
             except ValueError:
-                print("Your Value is invalid. Try again!")
-
-    def Round(self) -> None:
-        player: Player = self.playerOne.name
-        self.Turn(player)
-        player = self.playerTwo.name
-        self.Turn(player)
-
-    def Play(self) -> None:
-        round: int = 0
-
-        while True:
-            print(f"Round: {round}")
-            self.board.ShowBoard()
-            self.Round()
-            round += 1
+                print('Please enter an integer')
