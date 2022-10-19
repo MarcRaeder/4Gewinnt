@@ -56,7 +56,7 @@ class MainGame:
 
             if winner is not None:
                 break
-        if winner.name == "":
+        if winner.name == None:
             print("Unentschieden")
         else:
             print(f"{winner.name} hat gewonnen!")

@@ -2,10 +2,18 @@ from MainGame import MainGame
 
 
 def main() -> None:
-    game = MainGame()
+    playagain = "JA"
 
-    game.PrepareGame()
-    game.Play()
+    while playagain.upper() == "JA":
+        game = MainGame()
+
+        game.PrepareGame()
+        game.Play()
+
+        playagain = input(
+            "Möchtest Ihr noch eine Runde spielen? Dann bestätige mit JA: ")
+
+    print("Auf Wiedersehen!")
 
 
 if __name__ == '__main__':
