@@ -1,4 +1,3 @@
-from importlib.abc import Traversable
 from Player import Player
 from Board import Board
 
@@ -26,25 +25,25 @@ class MainGame:
                 print(
                     f"Your input '{userName}' is not valid. Please try again")
 
-    def Turn(self, player) -> None:
-        row: int = self.GetRowInput(player)
+    def Turn(self, playerName) -> None:
+        row: int = self.GetRowInput(playerName)
 
-    def GetRowInput(self, player) -> int:
+    def GetRowInput(self, playerName) -> int:
         while True:
             try:
                 rowInputString: str = input(
-                    f"{player}: Select a row to put your coin:")
+                    f"{playerName}: Select a row to put your coin:")
                 rowInput = int(rowInputString)
 
-                return rowInput, False
+                return rowInput
             except ValueError:
                 print("Your Value is invalid. Try again!")
 
     def Round(self) -> None:
-        player: Player = self.playerOne.name
-        self.Turn(player)
-        player = self.playerTwo.name
-        self.Turn(player)
+        playerName: str = self.playerOne.name
+        self.Turn(playerName)
+        playerName = self.playerTwo.name
+        self.Turn(playerName)
 
     def Play(self) -> None:
         round: int = 0
