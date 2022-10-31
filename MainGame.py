@@ -51,7 +51,7 @@ class MainGame:
             else:
                 print(f"Deine Eingabe'{userName}' ist ungültig. Versuch es nochmal!")
 
-    def GetRowInput(self, playerName: str) -> int:
+    def GetRowInput(self, playerName) -> int:
         while True:
             rowInputString: str = input(
                 f"{playerName}: Wähle eine Spalte um deinen Stein zu setzen: "
