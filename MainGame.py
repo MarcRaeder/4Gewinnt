@@ -28,7 +28,8 @@ class MainGame:
                 return
             else:
                 print(
-                    f"Du kannst deinen Stein nicht in Spalte '{row}' setzen. Versuch es nochmal!")
+                    f"Du kannst deinen Stein nicht in Spalte '{row}' setzen. Versuch es nochmal!"
+                )
 
     def Round(self) -> None:
         self.roundNumber += 1
@@ -42,31 +43,31 @@ class MainGame:
 
     def GetUserName(self, playerName: str) -> str:
         while True:
-            userName: str = input(
-                f"{playerName}: Bitte gebe deinen Namen ein: ")
+            userName: str = input(f"{playerName}: Bitte gebe deinen Namen ein: ")
 
             inputIsValid: bool = userName.isalpha() and len(userName) > 0
             if inputIsValid:
                 return userName
             else:
-                print(
-                    f"Deine Eingabe'{userName}' ist ungültig. Versuch es nochmal!")
+                print(f"Deine Eingabe'{userName}' ist ungültig. Versuch es nochmal!")
 
     def GetRowInput(self, playerName: str) -> int:
         while True:
             rowInputString: str = input(
-                f"{playerName}: Wähle eine Spalte um deinen Stein zu setzen: ")
+                f"{playerName}: Wähle eine Spalte um deinen Stein zu setzen: "
+            )
 
             try:
                 rowInput = int(rowInputString)
                 firstLine: int = 1
-                lastLine: int = 2
+                lastLine: int = 7
 
                 inputIsValid = firstLine <= rowInput <= lastLine
                 if inputIsValid:
                     return rowInput
                 else:
                     print(
-                        f"Deine Eingabe '{rowInput}' ist ungültig. Versuch es nochmal")
+                        f"Deine Eingabe '{rowInput}' ist ungültig. Versuch es nochmal"
+                    )
             except ValueError:
-                print('Bitte gebe eine Zahl ein')
+                print("Bitte gebe eine Zahl ein")
