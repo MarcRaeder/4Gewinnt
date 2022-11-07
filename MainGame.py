@@ -26,10 +26,10 @@ class MainGame:
             if isvalidTurn:
                 self.board.AddCoinToBoard(row, player.symbol)
                 return
-            else:
-                print(
-                    f"Du kannst deinen Stein nicht in Spalte '{row}' setzen. Versuch es nochmal!"
-                )
+
+            print(
+                f"Du kannst deinen Stein nicht in Spalte '{row}' setzen. Versuch es nochmal!"
+            )
 
     def Round(self) -> None:
         self.roundNumber += 1
