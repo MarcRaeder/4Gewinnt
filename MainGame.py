@@ -43,7 +43,8 @@ class MainGame:
     def Round(self) -> None or Player:
         winner: Player
         self.roundNumber += 1
-        if self.roundNumber > 21:
+        maxRounds = 21
+        if self.roundNumber > maxRounds:
             return Player()
         print(f"Round: {self.roundNumber}")
         winner = self.Turn(self.playerOne)

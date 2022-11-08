@@ -6,9 +6,9 @@ class StatusValidator:
     def __init__(self):
         pass
 
-    def isWin(board: Board, player: Player, row: int) -> bool:
+    def isWin(board: Board, player: Player, column: int) -> bool:
         horizontalWin = StatusValidator.horizontalWin(board, player)
-        verticalWin = StatusValidator.verticalWin(board, player, row)
+        verticalWin = StatusValidator.verticalWin(board, player, column)
         diagonalWin = StatusValidator.diagonalWin(board, player)
 
         return horizontalWin or verticalWin or diagonalWin
@@ -39,18 +39,22 @@ class StatusValidator:
 
         for column in range(columns - 3):
             for row in range(rows - 3):
-                if boardMatrix[row][column] == symbol and \
-                        boardMatrix[row + 1][column + 1] == symbol and \
-                        boardMatrix[row + 2][column + 2] == symbol and \
-                        boardMatrix[row + 3][column + 3] == symbol:
+                if (
+                    boardMatrix[row][column] == symbol
+                    and boardMatrix[row + 1][column + 1] == symbol
+                    and boardMatrix[row + 2][column + 2] == symbol
+                    and boardMatrix[row + 3][column + 3] == symbol
+                ):
                     return True
 
         for column in range(columns - 3):
             for row in range(3, rows):
-                if boardMatrix[row][column] == symbol and \
-                        boardMatrix[row - 1][column + 1] == symbol and \
-                        boardMatrix[row - 2][column + 2] == symbol and \
-                        boardMatrix[row - 3][column + 3] == symbol:
+                if (
+                    boardMatrix[row][column] == symbol
+                    and boardMatrix[row - 1][column + 1] == symbol
+                    and boardMatrix[row - 2][column + 2] == symbol
+                    and boardMatrix[row - 3][column + 3] == symbol
+                ):
                     return True
 
         return False
