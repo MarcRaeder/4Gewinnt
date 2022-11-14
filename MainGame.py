@@ -1,5 +1,9 @@
+from typing import Optional
 from Board import Board
 from Player import Player
+from StatusValidator import StatusValidator
+
+MAXROUNDS: int = 21
 
 
 class MainGame:
@@ -15,31 +19,49 @@ class MainGame:
         self.playerTwo.name = self.GetUserName("Spieler 2")
         self.playerTwo.symbol = "O"
 
-    def Turn(self, player: Player) -> None:
+    def Turn(self, player: Player) -> Player:
         self.board.ShowBoard()
 
         while True:
             row: int = self.GetRowInput(player.name)
 
-            isvalidTurn: bool = self.board.IsValidTurn(row)
+            isValidTurn: bool = self.board.IsValidTurn(row)
 
-            if isvalidTurn:
+            if isValidTurn:
                 self.board.AddCoinToBoard(row, player.symbol)
-                return
 
-            print(
-                f"Du kannst deinen Stein nicht in Spalte '{row}' setzen. Versuch es nochmal!"
-            )
+                StatusValidator.isWin(self.board, player, row)
+                break
 
-    def Round(self) -> None:
+            else:
+                print(
+                    f"Du kannst deinen Stein nicht in Spalte '{row}' setzen. Versuch es nochmal!"
+                )
+
+        return player
+
+    def Round(self) -> Optional[Player]:
         self.roundNumber += 1
+        if self.roundNumber > MAXROUNDS:
+            return Player()
         print(f"Round: {self.roundNumber}")
-        self.Turn(self.playerOne)
-        self.Turn(self.playerTwo)
+        player = self.Turn(self.playerOne)
+        if not player.isWinner:
+            player = self.Turn(self.playerTwo)
+
+        if player.isWinner:
+            return player
 
     def Play(self) -> None:
         while True:
-            self.Round()
+            player = self.Round()
+
+            if player is not None:
+                break
+        if player.name == "":
+            print("Unentschieden")
+        else:
+            print(f"{player.name} hat gewonnen!")
 
     def GetUserName(self, playerName: str) -> str:
         while True:
