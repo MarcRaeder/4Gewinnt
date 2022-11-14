@@ -62,7 +62,6 @@ class MainGame:
                 break
 
         if player.name == "":
-
             print("Unentschieden")
         else:
             print(f"{player.name} hat gewonnen!")
