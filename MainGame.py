@@ -1,6 +1,9 @@
+from typing import Optional
 from Board import Board
 from Player import Player
 from StatusValidator import StatusValidator
+
+MAXROUNDS: int = 21
 
 
 class MainGame:
@@ -16,42 +19,40 @@ class MainGame:
         self.playerTwo.name = self.GetUserName("Spieler 2")
         self.playerTwo.symbol = "O"
 
-    def Turn(self, player: Player) -> None or Player:
+    def Turn(self, player: Player) -> Optional[Player]:
         self.board.ShowBoard()
 
         while True:
             row: int = self.GetRowInput(player.name)
 
-            isvalidTurn: bool = self.board.IsValidTurn(row)
+            isValidTurn: bool = self.board.IsValidTurn(row)
 
-            if isvalidTurn:
+            if isValidTurn:
                 self.board.AddCoinToBoard(row, player.symbol)
 
                 playerWins = StatusValidator.isWin(self.board, player, row)
 
                 if playerWins:
                     return player
-                break
+                return player
 
             else:
                 print(
                     f"Du kannst deinen Stein nicht in Spalte '{row}' setzen. Versuch es nochmal!"
                 )
 
-                return
+                return player
 
-    def Round(self) -> None or Player:
-        winner: Player
+    def Round(self) -> Optional[Player]:
         self.roundNumber += 1
-        maxRounds = 21
-        if self.roundNumber > maxRounds:
+        if self.roundNumber > MAXROUNDS:
             return Player()
         print(f"Round: {self.roundNumber}")
-        winner = self.Turn(self.playerOne)
-        if winner is None:
+        winner: Player = self.Turn(self.playerOne)
+        if not winner.isWinner:
             winner = self.Turn(self.playerTwo)
 
-        if winner is not None:
+        if winner.isWinner:
             return winner
 
     def Play(self) -> None:
