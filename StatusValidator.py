@@ -8,16 +8,16 @@ class StatusValidator:
 
     @classmethod
     def isWin(cls, board: Board, player: Player, column: int) -> bool:
-        horizontalWin = StatusValidator.horizontalWin(board, player)
-        verticalWin = StatusValidator.verticalWin(board, player, column)
-        diagonalWin = StatusValidator.diagonalWin(board, player)
+        horizontalWin = cls.horizontalWin(board, player)
+        verticalWin = cls.verticalWin(board, player, column)
+        diagonalWin = cls.diagonalWin(board, player)
 
         return horizontalWin or verticalWin or diagonalWin
 
     @classmethod
     def horizontalWin(cls, board: Board, player: Player) -> bool:
         for row in board.board:
-            if StatusValidator.winSequence(row, player):
+            if cls.winSequence(row, player):
                 player.isWinner = True
                 return True
 
@@ -30,7 +30,7 @@ class StatusValidator:
         for row in range(len(board.board)):
             sequence.append(board.board[row][column])
 
-        if StatusValidator.winSequence(sequence, player):
+        if cls.winSequence(sequence, player):
             player.isWinner = True
             return True
 
