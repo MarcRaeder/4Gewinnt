@@ -19,7 +19,7 @@ class MainGame:
         self.playerTwo.name = self.GetUserName("Spieler 2")
         self.playerTwo.symbol = "O"
 
-    def Turn(self, player: Player) -> Optional[Player]:
+    def Turn(self, player: Player) -> Player:
         self.board.ShowBoard()
 
         while True:
@@ -30,42 +30,38 @@ class MainGame:
             if isValidTurn:
                 self.board.AddCoinToBoard(row, player.symbol)
 
-                playerWins = StatusValidator.isWin(self.board, player, row)
-
-                if playerWins:
-                    return player
-                return player
+                StatusValidator.isWin(self.board, player, row)
+                break
 
             else:
                 print(
                     f"Du kannst deinen Stein nicht in Spalte '{row}' setzen. Versuch es nochmal!"
                 )
 
-                return player
+        return player
 
     def Round(self) -> Optional[Player]:
         self.roundNumber += 1
         if self.roundNumber > MAXROUNDS:
             return Player()
         print(f"Round: {self.roundNumber}")
-        winner: Player = self.Turn(self.playerOne)
-        if not winner.isWinner:
-            winner = self.Turn(self.playerTwo)
+        player = self.Turn(self.playerOne)
+        if not player.isWinner:
+            player = self.Turn(self.playerTwo)
 
-        if winner.isWinner:
-            return winner
+        if player.isWinner:
+            return player
 
     def Play(self) -> None:
-        winner: Player
         while True:
-            winner = self.Round()
+            player = self.Round()
 
-            if winner is not None:
+            if player is not None:
                 break
-        if winner.name == "":
+        if player.name == "":
             print("Unentschieden")
         else:
-            print(f"{winner.name} hat gewonnen!")
+            print(f"{player.name} hat gewonnen!")
 
     def GetUserName(self, playerName: str) -> str:
         while True:

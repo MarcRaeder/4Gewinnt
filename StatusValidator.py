@@ -14,6 +14,7 @@ class StatusValidator:
 
         return horizontalWin or verticalWin or diagonalWin
 
+    @staticmethod
     def horizontalWin(board: Board, player: Player) -> bool:
         for row in board.board:
             if StatusValidator.winSequence(row, player):
@@ -22,6 +23,7 @@ class StatusValidator:
 
         return False
 
+    @staticmethod
     def verticalWin(board: Board, player: Player, column: int) -> bool:
         sequence = []
         column -= 1
@@ -34,6 +36,7 @@ class StatusValidator:
 
         return False
 
+    @staticmethod
     def diagonalWin(board: Board, player: Player) -> bool:
         boardMatrix: list[list[str]] = board.board
         symbol: str = player.symbol
@@ -63,6 +66,7 @@ class StatusValidator:
 
         return False
 
+    @staticmethod
     def winSequence(row: list[str], player: Player) -> bool:
         winnerSequence = player.symbol * 4
         sequenceString = str.join("", row)
