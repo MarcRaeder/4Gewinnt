@@ -18,7 +18,7 @@ class StatusValidator:
     def horizontalWin(cls, board: Board, player: Player) -> bool:
         for row in board.board:
             if cls.winSequence(row, player):
-                player.isWinner = True
+
                 return True
 
         return False
@@ -29,9 +29,7 @@ class StatusValidator:
         column -= 1
         for row in range(len(board.board)):
             sequence.append(board.board[row][column])
-
         if cls.winSequence(sequence, player):
-            player.isWinner = True
             return True
 
         return False
@@ -61,7 +59,7 @@ class StatusValidator:
                     and boardMatrix[row - 2][column + 2] == symbol
                     and boardMatrix[row - 3][column + 3] == symbol
                 ):
-                    player.isWinner = True
+
                     return True
 
         return False
