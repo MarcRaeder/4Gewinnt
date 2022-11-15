@@ -30,7 +30,7 @@ class MainGame:
             if isValidTurn:
                 self.board.AddCoinToBoard(row, player.symbol)
 
-                if StatusValidator.isWin(self.board, player, row):
+                if StatusValidator.isWin(self.board, player.symbol, row):
                     player.isWinner = True
 
                 break
